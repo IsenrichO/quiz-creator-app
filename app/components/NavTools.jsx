@@ -15,6 +15,7 @@ export default class NavTools extends Component {
     this.state = { questionNum: 0 && Number(Object.keys(localStorage).pop().replace(/\D/gmi, '')) + 1 }
   }
 
+  // Add new question/answer pair:
   addNewQuestion(evt) {
     evt.preventDefault();
     let [question, answer] = [prompt('Your question:'), prompt('The answer:')];
@@ -23,25 +24,27 @@ export default class NavTools extends Component {
       console.log('State:', this.state);
   }
 
+  // Clear `localStorage` cache:
   deleteAll(evt) {
     evt.preventDefault();
     localStorage.clear();
   }
 
-  saveQuiz(quiz, evt) {
-    // function saveQuiz(quiz) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (Math.random() < 0.1) {
-            // Pretend the save operation failed:
-            return reject(new Error('Error: Quiz randomly failed to save'));
-          }
-          // Pretend the save operation succeeded:
-          localStorage.setItem('quiz', ${this}.serialize());
-          return resolve();
-        }, Math.random() * 1000);
-      });
-    // }
+  // Mock Promise-based save implementation:
+  saveQuiz(evt) {
+    return new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if (Math.random() < 0.1) {
+          // Pretend the save operation failed:
+          return reject(new Error('Error: Quiz randomly failed to save'));
+        }
+        // Pretend the save operation succeeded:
+        let serializedQuiz = $('#quiz').serialize();
+          console.log('Serial:', serializedQuiz);
+        localStorage.setItem('quiz', serializedQuiz);
+        return resolve();
+      }, Math.random() * 1000);
+    });
   }
 
   checkAnswer(evt) {
@@ -63,7 +66,11 @@ export default class NavTools extends Component {
         <h4>{ question[0] }</h4>
         <label>{ question[1] }</label>
         <input
-          type="text" />
+          type="text"
+          className="quiz-question" />
+        <input
+          type="text"
+          defaultValue={ question[2] } />
         <button
           onClick={ this.checkAnswer }>
           Check
@@ -87,12 +94,11 @@ export default class NavTools extends Component {
         </button>
         <button
           id="save-quiz-btn"
-          onClick={ this.saveQuiz(localStorage) }>
+          onClick={ this.saveQuiz }>
           Save
         </button>
-        <div>{ this.renderQuestionsList() }</div>
+        <form id="quiz">{ this.renderQuestionsList() }</form>
       </div>
     );
   }
-
 };

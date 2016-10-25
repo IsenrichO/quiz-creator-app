@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
 
+// import CheckAnswer from './CheckAnswer.jsx';
+
 
 export default class NavTools extends Component {
   constructor() {
     super();
     this.addNewQuestion = this.addNewQuestion.bind(this);
     this.deleteAll = this.deleteAll.bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
     this.renderQuestionsList = this.renderQuestionsList.bind(this);
-    this.state = { questionNum: 0 && Number(Object.keys(localStorage).pop().replace(/\D/gmi, "")) + 1  }
+    this.state = { questionNum: 0 && Number(Object.keys(localStorage).pop().replace(/\D/gmi, '')) + 1 }
   }
 
   addNewQuestion(evt) {
     evt.preventDefault();
-    let question = prompt('Your question:');
+    let [question, answer] = [prompt('Your question:'), prompt('The answer:')];
     localStorage.setItem(`Q${++this.state.questionNum}`, question);
-    console.log('State:', this.state);
+    localStorage.setItem(`A${this.state.questionNum}`, answer);
+      console.log('State:', this.state);
   }
 
   deleteAll(evt) {
@@ -22,10 +26,16 @@ export default class NavTools extends Component {
     localStorage.clear();
   }
 
+  checkAnswer(evt) {
+    evt.preventDefault();
+    alert(this.props.response === this.props.answer ? 'CORRECT!' : 'Not quite. Try again.');
+  }
+
+
   renderQuestionsList() {
     let arr = [];
     for (let key in localStorage) {
-      arr.push([key, localStorage[key]]);
+      if (/q/i.test(key)) { arr.push([key, localStorage[key]]); }
     }
       console.log('Questions:', arr);
 
@@ -37,6 +47,10 @@ export default class NavTools extends Component {
         <label>{ question[1] }</label>
         <input
           type="text" />
+        <button
+          onClick={ this.checkAnswer }>
+          Check
+        </button>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+// import $ from 'jquery';
 
 // import CheckAnswer from './CheckAnswer.jsx';
 
@@ -8,6 +9,7 @@ export default class NavTools extends Component {
     super();
     this.addNewQuestion = this.addNewQuestion.bind(this);
     this.deleteAll = this.deleteAll.bind(this);
+    this.saveQuiz = this.saveQuiz.bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.renderQuestionsList = this.renderQuestionsList.bind(this);
     this.state = { questionNum: 0 && Number(Object.keys(localStorage).pop().replace(/\D/gmi, '')) + 1 }
@@ -26,11 +28,26 @@ export default class NavTools extends Component {
     localStorage.clear();
   }
 
+  saveQuiz(quiz, evt) {
+    // function saveQuiz(quiz) {
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (Math.random() < 0.1) {
+            // Pretend the save operation failed:
+            return reject(new Error('Error: Quiz randomly failed to save'));
+          }
+          // Pretend the save operation succeeded:
+          // localStorage.setItem('quiz', ${this}.serialize());
+          return resolve();
+        }, Math.random() * 1000);
+      });
+    // }
+  }
+
   checkAnswer(evt) {
     evt.preventDefault();
     alert(this.props.response === this.props.answer ? 'CORRECT!' : 'Not quite. Try again.');
   }
-
 
   renderQuestionsList() {
     let arr = [];
@@ -67,6 +84,11 @@ export default class NavTools extends Component {
           id="delete-all-btn"
           onClick={ this.deleteAll }>
           Delete All
+        </button>
+        <button
+          id="save-quiz-btn"
+          onClick={ this.saveQuiz(localStorage) }>
+          Save
         </button>
         <div>{ this.renderQuestionsList() }</div>
       </div>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import $ from 'jquery';
+import $ from 'jquery';
 
 // import CheckAnswer from './CheckAnswer.jsx';
 
@@ -37,7 +37,7 @@ export default class NavTools extends Component {
             return reject(new Error('Error: Quiz randomly failed to save'));
           }
           // Pretend the save operation succeeded:
-          // localStorage.setItem('quiz', ${this}.serialize());
+          localStorage.setItem('quiz', ${this}.serialize());
           return resolve();
         }, Math.random() * 1000);
       });

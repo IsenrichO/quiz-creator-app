@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import NavTools from './components/NavTools.jsx';
+import NavTools from './components/NavTools';
 
 
 class App extends Component {
